@@ -14,3 +14,7 @@ Tein tehtävät 4, 5 ja 6 24.8
 ## Moduuli 4
 
 Tein tehtävät 1, 2, 3 ja 4 24.8
+
+## Moduuli 5
+
+Tein tehtävät 1, 2 ja 3 24.8
