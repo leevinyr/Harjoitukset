@@ -24,4 +24,4 @@ Tein tehtävät 4, 5, 6 sekä peliprojektin osan 2 26.8
 
 ## Moduuli 6
 
-Tein tehtävät 1, 2 ja 3
+Tein tehtävät 1, 2, 3 ja 4 26.8
