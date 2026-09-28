@@ -38,6 +38,13 @@ class Player(Entity):
         else:
             self.level = 0
 
-leevi = Player("leevi", 20, 100)
+class Room:
+    def __init__(self, name, items):
+        self.name = name
+        self.items = items
+                
 
-print(leevi.health)
+class Item:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value

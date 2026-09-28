@@ -1,64 +1,19 @@
-import sys
+import random
+from entity import Entity, Player, Item, Room
+from items import items
 
-inventory = []
+def generate_items():
+    room_items = []
 
-def change_name():
-    name = input("Anna nimesi: ")
-    return name
+    for i in range(0, random.randint(1, 4)):
+        random_item = random.randint(0, len(items)-1)
+        room_items.append(items[random_item])
+        items.pop(random_item)
 
-def change_age():
-    age = int(input("Anna ikäsi: "))
-    if(age < 12):
-        sys.exit("Sinun on oltava vähintään 12 vuotias, jotta voit pelata.")
-    else:
-        return age
+    return room_items
 
-def add_to_inv():
-    while(True):
-        asia = input("Lisää asia inventoryan (tyhjä lopettaa): ")
-        if(asia == ""):
-            break
-        else:
-            inventory.append(asia)
+living_room = Room("Living Room", generate_items())
 
-def show_inventory():
-    for i in inventory:
-        print(i)
+for i in living_room.items:
+    print(i.name, f"{i.value}$")
 
-def exit():
-    sys.exit()
-
-change_name()
-change_age()
-
-
-
-
-
-
-
-""" 
-while(True):
-    print("(1) Syötä name uudelleen")
-    print("(2) Syötä ikä uudelleen")
-    print("(3) Lisää asioita inventoryan")
-    print("(4) Näytä inventory")
-    print("(0) Lopeta")
-
-    valinta = input("Valitse komento: ")
-
-    if(valinta == "1" or valinta.lower() == "syötä name uudelleen"):
-        print(f"Tervetuloa, {change_name()}")
-        continue    
-    elif(valinta == "2" or valinta.lower() == "syötä ikä uudelleen"):
-        print(f"Ikä {change_age()} tallennettu.")
-        continue
-    elif(valinta == "3" or valinta.lower() == "lisää asioita inventoryan"):
-        add_to_inv()
-    elif(valinta == "4" or valinta.lower() == "näytä inventory"):
-        show_inventory()
-    elif(valinta == "0" or valinta == "lopeta"):
-        exit()
-    else:
-        print("Virheellinen komento.")
-        continue """
