@@ -1,10 +1,25 @@
-numbers = {"Viivi": "93848534985",
-           "Ahmed": "235987",
-           "Pekka": "394873",
-           "George": "34987349587"}
+import json
 
-valinta = input("Anna kaverin nimi: ")
-if(valinta in numbers):
-    print(f"Henkilön {valinta} numero on {numbers[valinta]}")
-else:
-    print("Nimeä ei löytynyt.")
+tallennus_data = {
+    "hp": 5,
+    "ase": "m9",
+    "huone": "makuuhuone"
+}
+
+with open("save.json", "w") as f:
+    json.dump(tallennus_data, f)
+
+with open("save.json", "r") as f:
+    luettu_data = json.load(f)
+
+print(f"{luettu_data["hp"]}, {luettu_data["ase"]}, {luettu_data["huone"]}")
+
+hp = 6
+ase = "homo"
+huone = "idk"
+
+print(f"{hp}, {ase}, {huone}")
+
+hp, ase, huone = luettu_data["hp"], luettu_data["ase"], luettu_data["huone"]
+
+print(f"{hp}, {ase}, {huone}")
