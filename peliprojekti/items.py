@@ -1,4 +1,4 @@
-from entity import Item
+from classes import Item
 import random
 
 random_cash_amount = random.randint(1,5)
