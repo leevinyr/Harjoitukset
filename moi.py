@@ -1,10 +1,10 @@
-import random
+numbers = {"Viivi": "93848534985",
+           "Ahmed": "235987",
+           "Pekka": "394873",
+           "George": "34987349587"}
 
-while True:
-    noppa1 = random.randint(1, 3)
-    noppa2 = random.randint(1, 3)
-    if(noppa1 == 3 and noppa2 == 3):
-        print(f"Nyt tuli {noppa1} ja {noppa2}, jee!")
-        break
-    else:
-        print(f"Nyt tuli {noppa1} ja {noppa2}, jatketaan")
+valinta = input("Anna kaverin nimi: ")
+if(valinta in numbers):
+    print(f"Henkilön {valinta} numero on {numbers[valinta]}")
+else:
+    print("Nimeä ei löytynyt.")
