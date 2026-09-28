@@ -10,13 +10,16 @@ class Entity:
             target.health -= damage
 
 class Player(Entity):
-    def __init__(self, name, age, health):
+    def __init__(self, name, age, gender):
         self.name = name
         self.age = age
+        self.gender = gender
         self.exp = 0
         self.level = 0
         self.inventory = []
-        super().__init__(health)
+        self.health = 100
+        self.in_room = ""
+        # super().__init__()
 
     # Adds item to players inventory
     def collect(self, item):
