@@ -51,27 +51,23 @@ def save_game_state():
                  "saved_room": player.in_room
               }
 
-     with open("Harjoitukset/peliprojekti/save.json", "w") as save_file:
+     with open("peliprojekti/save.json", "w") as save_file:
           json.dump(data_to_save, save_file)
 
 # Lataa pelin tallennetun tilan
 def load_saved_game_state():
-    with open("Harjoitukset/peliprojekti/save.json", "r") as save_file:
+    with open("peliprojekti/save.json", "r") as save_file:
         read_data = json.load(save_file)
 
-    player.health, player.inventory, player.exp, player.level, player.in_room = read_data["saved_health"],
-    read_data["saved_inventory"],
-    read_data["saved_exp"],
-    read_data["saved_level"],
-    read_data["saved_room"],
+    player.health, player.inventory, player.exp, player.level, player.in_room = read_data["saved_health"], read_data["saved_inventory"], read_data["saved_exp"], read_data["saved_level"], read_data["saved_room"],
 
-    print(f"Successfully loaded previous save with: \n{show_player_inv()} \n{show_player_health}")
+    print(f"Successfully loaded previous save with {player.health}, {player.inventory}, {player.exp}, {player.level}")
 
 # lukee save tiedoston, jos tyhjä, oleta, että pelaa ekaa kertaa
 def start_game():
     # game_active = True
 
-    with open("Harjoitukset/peliprojekti/save.json", "r") as save_file:
+    with open("peliprojekti/save.json", "r") as save_file:
         if(not save_file.read(1)):
             show_create_character_screen()
         else:

@@ -28,9 +28,18 @@ def show_inventory():
 def exit():
     sys.exit()
 
-change_name()
-change_age()
-
+while True:
+    valinta = int(input("(1) Muuta nimeä\n(2)Muuta ikä\n(3)Lisää asioita inventaarioon\n(4) Tulosta inventaarion sisätlö\nValitse toiminto: "))
+    if(valinta == 1):
+        change_name()
+    elif(valinta == 2):
+        change_age()
+    elif(valinta == 3):
+        add_to_inv()
+    elif(valinta == 4):
+        show_inventory()
+    else:
+        print("Virheellinen valinta.")
 
 
 
