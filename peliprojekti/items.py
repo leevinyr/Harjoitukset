@@ -1,7 +1,4 @@
 from classes import Item
-import random
-
-random_cash_amount = random.randint(1,5)
 
 banana = Item("Banana", 1)
 gold_coin = Item("Diamond", 10)
@@ -20,7 +17,7 @@ toothbrush = Item("Toothbrush", 1)
 shiny_frying_pan = Item("Shiny Frying Pan", 3)
 phone_charger = Item("Phone Charger", 2)
 wrist_watch = Item("Steel Watch", 4)
-cash = Item(f"{random_cash_amount}$ in cash", random_cash_amount)
+cash = Item("3$ in cash", 3)
 polaroid_camera = Item("Polaroid Camera", 4)
 niche_fragrance = Item("Niche Fragrance", 5)
 

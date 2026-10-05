@@ -21,8 +21,16 @@ class Player(Entity):
         self.in_room = Room
 
     # Adds item to players inventory
-    def collect(self, item):
+    def collect_item(self, item):
         self.inventory.append(item)
+        self.in_room.items.remove(item)
+
+    def discard_item(self, item):
+        self.inventory.remove(item)
+
+    def show_inventory(self):
+        for i in range(0, len(self.inventory), 1):
+            print(f"{i} {self.inventory[i].name}")
 
     # Gives player given amount of experience points
     """ def gain_exp(self, amount):

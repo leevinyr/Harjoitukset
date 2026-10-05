@@ -1,10 +1,22 @@
 import random
-import os
+import time
 import json
+import subprocess
+import platform
+
 from classes import Entity, Player, Item, Room
 from items import all_items, available_items
 
 player = Player("", 0, "")
+
+Entryway = Room("Entryway", [])
+Kitchen = Room("Kitchen", [])
+Living_room = Room("Living room", [])
+Bathroom = Room("Bathroom", [])
+Attic = Room("Attic", [])
+Bedroom = Room("Bedroom", [])
+
+controls_text = "Controls: \nCollect item: 1, Discard item: 2, Change room: 3"
 
 # Generoi satunnaisen määrän item-olioita mahdollisia tavaroita sisältävästä listasta
 def generate_items():
@@ -16,13 +28,6 @@ def generate_items():
         available_items.pop(random_item)
 
     return room_items
-
-Entryway = Room("Entryway", generate_items())
-Kitchen = Room("Kitchen", generate_items())
-Living_room = Room("Living room", generate_items())
-Bathroom = Room("Bathroom", generate_items())
-Attic = Room("Attic", generate_items())
-Bedroom = Room("Bedroom", generate_items())
 
 rooms = [Entryway, Kitchen, Living_room, Bathroom, Attic, Bedroom]
 
@@ -38,9 +43,7 @@ def find_room_by_name(name):
 
 # Hahmonluontivalikko
 def show_create_character_screen():
-    print("Welcome to Trespass! Let's create your character.\n")
-
-    given_name = input(("First, give your character a name:\n"))
+    given_name = input(("Give your character a name:\n"))
     given_age = int(input("\nSpecify your characters age: "))
     given_gender = input("\nWhat is your characters gender?\nMale (1)\nFemale (2)\nOther (3)\nSelection: ")
     
@@ -72,7 +75,7 @@ def save_game_state():
                  "player_age": player.age,
                  "player_gender": player.gender,
                  "saved_health": player.health,
-                 "saved_inventory": player.inventory,
+                 "saved_inventory": [item.name for item in player.inventory],
                  "saved_exp": player.exp,
                  "saved_level": player.level,
                  "saved_room": player.in_room.name,
@@ -93,9 +96,9 @@ def load_saved_game_state():
     with open("peliprojekti/save.json", "r") as save_file:
         read_data = json.load(save_file)
 
-    player.name, player.age, player.gender, player.health, player.inventory, player.exp, player.level = read_data["player_name"], read_data["player_age"], read_data["player_gender"], read_data["saved_health"], read_data["saved_inventory"], read_data["saved_exp"], read_data["saved_level"]
+    player.name, player.age, player.gender, player.health, player.exp, player.level = read_data["player_name"], read_data["player_age"], read_data["player_gender"], read_data["saved_health"], read_data["saved_exp"], read_data["saved_level"]
     player.in_room = find_room_by_name(read_data["saved_room"])
-
+    player.inventory = [find_item_by_name(item_name) for item_name in read_data["saved_inventory"]]
     Entryway.items = [find_item_by_name(item_name) for item_name in read_data["entryway_items"]]
     Living_room.items = [find_item_by_name(item_name) for item_name in read_data["living_room_items"]]
     Kitchen.items = [find_item_by_name(item_name) for item_name in read_data["kitchen_items"]]
@@ -125,7 +128,7 @@ def show_current_map():
                          |
                          |
                     +----------+
-                    |*Entryway*|
+                    |*ENTRYWAY*|
                     +----------+
     """)
     elif(player.in_room == Living_room):
@@ -141,8 +144,8 @@ def show_current_map():
                      |
                      |
                 +----------+
-                | *Living  |
-                |   room*  |
+                | *LIVING  |
+                |   ROOM*  |
                 +----------+
                      |
                      |
@@ -158,7 +161,7 @@ def show_current_map():
            |
            |
     +-----------+     +-----------+
-    |   Attic   |-----| *Kitchen* |
+    |   Attic   |-----| *KITCHEN* |
     +-----------+     +-----------+
                          |
                          |
@@ -180,7 +183,7 @@ def show_current_map():
            |
            |
     +-----------+     +----------+
-    |  *Attic*  |-----|  Kitchen |
+    |  *ATTIC*  |-----|  Kitchen |
     +-----------+     +----------+
                          |
                          |
@@ -197,7 +200,7 @@ def show_current_map():
     elif(player.in_room == Bedroom):
             print("""
     +-----------+     +----------+
-    | *Bedroom* |-----| Bathroom |
+    | *BEDROOM* |-----| Bathroom |
     +-----------+     +----------+
            |
            |
@@ -207,8 +210,8 @@ def show_current_map():
                          |
                          |
                     +----------+
-                    | *Living  |
-                    |   room*  |
+                    |  Living  |
+                    |   room   |
                     +----------+
                          |
                          |
@@ -219,7 +222,7 @@ def show_current_map():
     elif(player.in_room == Bathroom):
             print("""
     +-----------+     +------------+
-    |  Bedroom  |-----| *Bathroom* |
+    |  Bedroom  |-----| *BATHROOM* |
     +-----------+     +------------+
            |
            |
@@ -242,39 +245,116 @@ def show_current_map():
 def show_room_info():
     print(f"Current room: {player.in_room.name}\nItems in room:")
     for i in player.in_room.items:
-        print(i.name, f"{i.value}$")
+        print(f"{player.in_room.items.index(i)} {i.name}, {i.value}$")
 
-controls_text = "Controls: \nCollect item: 1, Discard item: 2, Change room: 3"
+def select_item_collect():
+     selection = int(input("Select item to collect: "))
+     if(selection >= 0 and selection < len(player.in_room.items)):
+        player.collect_item(player.in_room.items[selection])
+     else:
+        print("Invalid selection.")
+        time.sleep(1)
 
+def select_item_discard():
+     player.show_inventory()
+
+     selection = input("Select an item to discard: ")
+     if(selection == "" or int(selection) < 0 or int(selection) > len(player.inventory) - 1):
+          print("Invalid selection.")
+          time.sleep(1)
+     else:
+          player.discard_item(player.inventory[int(selection)])
+     
+def select_room_change():
+     print("Nearby rooms: ")
+     if(player.in_room == Entryway):
+          print("1 Living room")
+     elif(player.in_room == Living_room):
+          print("1 Kitchen\n2 Entryway")
+     elif(player.in_room == Kitchen):
+              print("1 Attic\n2 Living room")
+     elif(player.in_room == Attic):
+              print("1 Bedroom\n2 Kitchen")
+     elif(player.in_room == Bedroom):
+              print("1 Bathroom\n2 Attic")
+     elif(player.in_room == Bathroom):
+              print("1 Bedroom")
+    
+     selection = int(input("Select next room: "))
+     if(player.in_room == Entryway and selection == 1):
+          player.in_room = Living_room
+     elif(player.in_room == Living_room and selection == 1):
+          player.in_room = Kitchen
+     elif(player.in_room == Living_room and selection == 2):
+              player.in_room = Entryway
+     elif(player.in_room == Kitchen and selection == 1):
+              player.in_room = Attic
+     elif(player.in_room == Kitchen and selection == 2):
+              player.in_room = Living_room
+     elif(player.in_room == Attic and selection == 1):
+              player.in_room = Bedroom
+     elif(player.in_room == Attic and selection == 2):
+              player.in_room = Kitchen
+     elif(player.in_room == Bedroom and selection == 1):
+              player.in_room = Bathroom
+     elif(player.in_room == Bedroom and selection == 2):
+              player.in_room = Attic
+     elif(player.in_room == Bathroom and selection == 1):
+              player.in_room = Bedroom
+     else:
+           print("Invalid selection.")
+           time.sleep(1)
+     
 def ask_next_command():
-     print(controls_text)
      command = int(input("Enter command: "))
      if(command == 1):
-          collect_item()
+          select_item_collect()
      elif(command == 2):
-          discard_item()
+          select_item_discard()
      elif(command == 3):
-          change_room()
+          select_room_change()
      else:
-          print("Invalid command.")
-          ask_next_command()
+          print("Invalid selection.")
+          time.sleep(1)
 
 # lukee save tiedoston, jos tyhjä, oleta, että pelaa ekaa kertaa
 def start_game():
     with open("peliprojekti/save.json", "r") as save_file:
         if(not save_file.read(1)):
-            show_create_character_screen()
+            Entryway.items = generate_items()
+            Living_room.items = generate_items()
+            Kitchen.items = generate_items()
+            Attic.items = generate_items()
+            Bedroom.items = generate_items()
+            Bathroom.items = generate_items()
+
             player.in_room = Entryway
+
+            with open("peliprojekti/intro.txt", "r") as f:
+                 for line in f:
+                      print(line)
+                      time.sleep(2)
+                 print("\n")
+
+            show_create_character_screen()
         else:
             load_saved_game_state()
+
+def clear_screen():
+    if platform.system() == "Windows":
+        subprocess.run(["cls"], shell=True)
+    else:
+        subprocess.run(["clear"], shell=True)
 
 def main():
     start_game()
 
     while True:
+       clear_screen()
        save_game_state()
+       print(controls_text)
        show_current_map()
        show_room_info()
-       input()
+       ask_next_command()
         
 main()
