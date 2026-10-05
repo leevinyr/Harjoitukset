@@ -3,11 +3,14 @@ import time
 import json
 import subprocess
 import platform
+import sys
 
 from classes import Entity, Player, Item, Room
-from items import all_items, available_items
+from items import all_items
 
 player = Player("", 0, "")
+
+available_items = all_items.copy()
 
 Entryway = Room("Entryway", [])
 Kitchen = Room("Kitchen", [])
@@ -22,7 +25,7 @@ controls_text = "Controls: \nCollect item: 1, Discard item: 2, Change room: 3"
 def generate_items():
     room_items = []
 
-    for i in range(0, random.randint(1, 4)):
+    for i in range(0, random.randint(1, 5)):
         random_item = random.randint(0, len(available_items)-1)
         room_items.append(available_items[random_item])
         available_items.pop(random_item)
@@ -41,12 +44,89 @@ def find_room_by_name(name):
         if room.name == name:
             return room
 
+def game_over_sequence():
+     
+     # Jos pelaaja on 18 tai yli ja alle 30
+     if(30 > player.age >= 18 and player.gender == "male"):
+          clear_screen()
+          time.sleep(1)
+          print("Hm. So you did it. As expected, from a young man like you. Alright, you're free to go.")
+          time.sleep(2)
+     elif(30 > player.age >= 18 and player.gender == "female"):
+          clear_screen()
+          time.sleep(1)
+          print("Hm. So you did it. As expected, from a young woman like you. Alright, you're free to go.")
+          time.sleep(2)
+
+     # Jos pelaaja on alle 18
+     elif(player.age < 18 and player.gender == "male"):
+          clear_screen()
+          time.sleep(1)
+          print("You're just.. a boy. Well done. You may go now. And stay out of trouble.")
+          time.sleep(2)
+     elif(player.age < 18 and player.gender == "female"):
+          clear_screen()
+          time.sleep(1)
+          print("You're just.. a girl. Well done. You may go now. And stay out of trouble.")
+          time.sleep(2)
+
+     # Jos pelaaja on 30 tai yli ja alle 50
+     if(50 > player.age >= 30 and player.gender == "male"):
+          clear_screen()
+          time.sleep(1)
+          print("Not bad. Alright, you can go now.")
+          time.sleep(2)
+     elif(30 > player.age >= 18 and player.gender == "female"):
+          clear_screen()
+          time.sleep(1)
+          print("Not bad. Alright, you can go now.")
+          time.sleep(2)
+
+     # Jos pelaaja on 50 tai yli
+     elif(player.age >= 50 and player.gender == "male"):
+          clear_screen()
+          time.sleep(1)
+          print("Not bad for a man of your age. Hope you didn't strain any muscles in there. You can go.")
+          time.sleep(2)
+     elif(player.age >= 50 and player.gender == "female"):
+          clear_screen()
+          time.sleep(1)
+          print("Not bad for a woman of your age. Hope you didn't strain any muscles in there. You can go.")
+          time.sleep(2)
+
+     print("You win.")
+     time.sleep(2)
+     play_again_input = input("Press enter to wipe your save and exit.")
+     open("peliprojekti/save.json", "w").close()
+     sys.exit(0)
+
+def show_game_failed_screen():
+     clear_screen()
+     print("Nothing more valuable in there huh? Well, I'll take it. You're not getting out though.")
+     time.sleep(2)
+     print("You are now trapped in the house for eternity.")
+     time.sleep(2)
+     print("You lost.")
+     time.sleep(2)
+     open("peliprojekti/save.json", "w").close()
+     sys.exit(0)
+
 # Hahmonluontivalikko
 def show_create_character_screen():
-    given_name = input(("Give your character a name:\n"))
-    given_age = int(input("\nSpecify your characters age: "))
-    given_gender = input("\nWhat is your characters gender?\nMale (1)\nFemale (2)\nOther (3)\nSelection: ")
-    
+    given_name = input(("What is your name?\n"))
+    player.name = given_name
+
+    given_age = input("\nWhat is your age?\n")
+    if(given_age == ""):
+         print("Invalid age.")
+    elif(int(given_age) < 12):
+         print("You must be 12 or older to play trespass.")
+         time.sleep(2)
+         sys.exit(0)
+    else:
+         player.age = int(given_age)
+
+    given_gender = input("\nWhat is your gender?\n1 Male\n2 Female\n3 Other\nSelection: ")
     if(given_gender == "1" or given_gender.lower() == "male"):
         given_gender = "male"
     elif(given_gender == "2" or given_gender.lower() == "female"):
@@ -54,18 +134,17 @@ def show_create_character_screen():
     elif(given_gender == "3" or given_gender.lower() == "other"):
             given_gender = "other"
 
-    # Syöttää player-oliolle syötetyt arvot
-    player.name = given_name
-    player.age = given_age
     player.gender = given_gender
 
-    print(f"Name: {player.name}, Age: {player.age}, Gender: {player.gender}")
+    print(f"\nName: {player.name}, Age: {player.age}, Gender: {player.gender}\n")
 
-    player_info_confirmation = input("Is this correct? (y/n)")
+    player_info_confirmation = input("Is this correct? (y/n) ")
     if(player_info_confirmation == "y"):
+        print("\n")
         input("Character saved. Press enter to begin.")
     else:
         print("\n")
+
         show_create_character_screen()
     
 # Tallentaa pelin tilan
@@ -105,8 +184,6 @@ def load_saved_game_state():
     Attic.items = [find_item_by_name(item_name) for item_name in read_data["attic_items"]]
     Bedroom.items = [find_item_by_name(item_name) for item_name in read_data["bedroom_items"]]
     Bathroom.items = [find_item_by_name(item_name) for item_name in read_data["bathroom_items"]]
-
-    print(f"Successfully loaded previous save with {player.inventory} in inventory, {player.exp} experience and player level {player.level}.")
 
 def show_current_map():
     if(player.in_room == Entryway):
@@ -242,15 +319,40 @@ def show_current_map():
                     +----------+
     """)
 
+def highest_value_found():
+     lowest_inv_value = 11
+
+     for i in player.inventory:
+          if i.value < lowest_inv_value:
+               lowest_inv_value = i.value
+
+     lowest_house_value = 10
+     for room in rooms:
+          for item in room.items:
+            if item.value < lowest_house_value:
+                lowest_house_value = item.value
+
+     if(lowest_inv_value >= lowest_house_value):
+          return True
+     else:
+          return False
+          
 def show_room_info():
-    print(f"Current room: {player.in_room.name}\nItems in room:")
-    for i in player.in_room.items:
-        print(f"{player.in_room.items.index(i)} {i.name}, {i.value}$")
+    if(not player.in_room.items):
+         print("No items in this room.\n")
+    else:
+        print(f"Current room: {player.in_room.name}\n\nItems in room:")
+        for i in player.in_room.items:
+            print(f"{player.in_room.items.index(i)} {i.name}, {i.value}$")
+        print("\n")
 
 def select_item_collect():
-     selection = int(input("Select item to collect: "))
-     if(selection >= 0 and selection < len(player.in_room.items)):
-        player.collect_item(player.in_room.items[selection])
+     selection = input("Select item to collect: ")
+     if(selection == ""):
+          print("Invalid selection.")
+          time.sleep(1)
+     elif(int(selection) >= 0 and int(selection) < len(player.in_room.items)):
+        player.collect_item(player.in_room.items[int(selection)])
      else:
         print("Invalid selection.")
         time.sleep(1)
@@ -268,7 +370,7 @@ def select_item_discard():
 def select_room_change():
      print("Nearby rooms: ")
      if(player.in_room == Entryway):
-          print("1 Living room")
+          print("1 Living room\n2 Door")
      elif(player.in_room == Living_room):
           print("1 Kitchen\n2 Entryway")
      elif(player.in_room == Kitchen):
@@ -280,33 +382,47 @@ def select_room_change():
      elif(player.in_room == Bathroom):
               print("1 Bedroom")
     
-     selection = int(input("Select next room: "))
-     if(player.in_room == Entryway and selection == 1):
+     selection = input("Select next room: ")
+     if(selection == ""):
+          print("Invalid selection.")
+          time.sleep(2)
+          ask_next_command()
+     if(player.in_room == Entryway and int(selection) == 1):
           player.in_room = Living_room
-     elif(player.in_room == Living_room and selection == 1):
+     elif(player.in_room == Entryway and int(selection) == 2):
+          if(player.total_inventory_value() < 50):
+               if(highest_value_found()):
+                    time.sleep(1)
+                    show_game_failed_screen()
+               elif(not highest_value_found()):
+                    print("Your items are not valuable enough. Try again when they are.")
+                    time.sleep(2)
+          else:
+               game_over_sequence()              
+     elif(player.in_room == Living_room and int(selection) == 1):
           player.in_room = Kitchen
-     elif(player.in_room == Living_room and selection == 2):
+     elif(player.in_room == Living_room and int(selection) == 2):
               player.in_room = Entryway
-     elif(player.in_room == Kitchen and selection == 1):
+     elif(player.in_room == Kitchen and int(selection) == 1):
               player.in_room = Attic
-     elif(player.in_room == Kitchen and selection == 2):
+     elif(player.in_room == Kitchen and int(selection) == 2):
               player.in_room = Living_room
-     elif(player.in_room == Attic and selection == 1):
+     elif(player.in_room == Attic and int(selection) == 1):
               player.in_room = Bedroom
-     elif(player.in_room == Attic and selection == 2):
+     elif(player.in_room == Attic and int(selection) == 2):
               player.in_room = Kitchen
-     elif(player.in_room == Bedroom and selection == 1):
+     elif(player.in_room == Bedroom and int(selection) == 1):
               player.in_room = Bathroom
-     elif(player.in_room == Bedroom and selection == 2):
+     elif(player.in_room == Bedroom and int(selection) == 2):
               player.in_room = Attic
-     elif(player.in_room == Bathroom and selection == 1):
+     elif(player.in_room == Bathroom and int(selection) == 1):
               player.in_room = Bedroom
      else:
            print("Invalid selection.")
            time.sleep(1)
      
 def ask_next_command():
-     command = int(input("Enter command: "))
+     command = int(input("\nEnter command: "))
      if(command == 1):
           select_item_collect()
      elif(command == 2):
@@ -319,6 +435,8 @@ def ask_next_command():
 
 # lukee save tiedoston, jos tyhjä, oleta, että pelaa ekaa kertaa
 def start_game():
+    available_items = all_items.copy()
+
     with open("peliprojekti/save.json", "r") as save_file:
         if(not save_file.read(1)):
             Entryway.items = generate_items()

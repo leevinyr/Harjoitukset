@@ -1,18 +1,13 @@
-import random
+import time
 
 class Entity:
     def __init__(self, health):
         self.health = health
 
-    """  def attack(self, target):
-        if(self.level == 0):
-            damage = random.randint(1, 20)
-            target.health -= damage """
-
 class Player(Entity):
     def __init__(self, name, age, gender):
         self.name = name
-        self.age = age
+        self.age = int(age)
         self.gender = gender
         self.exp = 0
         self.level = 0
@@ -22,32 +17,29 @@ class Player(Entity):
 
     # Adds item to players inventory
     def collect_item(self, item):
-        self.inventory.append(item)
-        self.in_room.items.remove(item)
+        if(len(self.inventory) == 8):
+            print("Inventory is full.")
+            time.sleep(1)
+        else:
+            self.inventory.append(item)
+            self.in_room.items.remove(item)
 
     def discard_item(self, item):
         self.inventory.remove(item)
 
+    def total_inventory_value(self):
+        total_inventory_value = 0
+        
+        for i in range(0, len(self.inventory), 1):
+            total_inventory_value += self.inventory[i].value
+
+        return total_inventory_value
+
     def show_inventory(self):
         for i in range(0, len(self.inventory), 1):
-            print(f"{i} {self.inventory[i].name}")
+            print(f"{i} {self.inventory[i].name} {self.inventory[i].value}$")
 
-    # Gives player given amount of experience points
-    """ def gain_exp(self, amount):
-        self.exp += amount
-        
-        if(self.exp >= 10):
-            self.level = 1
-        elif(self.exp >= 20):
-            self.level = 2
-        elif(self.exp >= 30):
-            self.level = 3
-        elif(self.exp >= 40):
-            self.level = 4
-        elif(self.exp >= 50):
-            self.level = 5
-        else:
-            self.level = 0 """
+        print(f"\nTotal value: {self.total_inventory_value()}$")
 
 class Room:
     def __init__(self, name, items):
