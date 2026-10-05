@@ -2,7 +2,7 @@ import random
 import os
 import json
 from classes import Entity, Player, Item, Room
-from items import all_items
+from items import all_items, available_items
 
 player = Player("", 0, "")
 
@@ -11,9 +11,9 @@ def generate_items():
     room_items = []
 
     for i in range(0, random.randint(1, 4)):
-        random_item = random.randint(0, len(all_items)-1)
-        room_items.append(all_items[random_item])
-        all_items.pop(random_item)
+        random_item = random.randint(0, len(available_items)-1)
+        room_items.append(available_items[random_item])
+        available_items.pop(random_item)
 
     return room_items
 
@@ -68,12 +68,21 @@ def show_create_character_screen():
 # Tallentaa pelin tilan
 def save_game_state():
      data_to_save = {
+                 "player_name": player.name,
+                 "player_age": player.age,
+                 "player_gender": player.gender,
                  "saved_health": player.health,
                  "saved_inventory": player.inventory,
                  "saved_exp": player.exp,
                  "saved_level": player.level,
                  "saved_room": player.in_room.name,
-                 "entryway_items": [item.name for item in Entryway.items]
+                 
+                 "entryway_items": [item.name for item in Entryway.items],
+                 "living_room_items": [item.name for item in Living_room.items],
+                 "kitchen_items": [item.name for item in Kitchen.items],
+                 "attic_items": [item.name for item in Attic.items],
+                 "bedroom_items": [item.name for item in Bedroom.items],
+                 "bathroom_items": [item.name for item in Bathroom.items],
               }
 
      with open("peliprojekti/save.json", "w") as save_file:
@@ -84,9 +93,15 @@ def load_saved_game_state():
     with open("peliprojekti/save.json", "r") as save_file:
         read_data = json.load(save_file)
 
-    player.health, player.inventory, player.exp, player.level = read_data["saved_health"], read_data["saved_inventory"], read_data["saved_exp"], read_data["saved_level"]
+    player.name, player.age, player.gender, player.health, player.inventory, player.exp, player.level = read_data["player_name"], read_data["player_age"], read_data["player_gender"], read_data["saved_health"], read_data["saved_inventory"], read_data["saved_exp"], read_data["saved_level"]
     player.in_room = find_room_by_name(read_data["saved_room"])
+
     Entryway.items = [find_item_by_name(item_name) for item_name in read_data["entryway_items"]]
+    Living_room.items = [find_item_by_name(item_name) for item_name in read_data["living_room_items"]]
+    Kitchen.items = [find_item_by_name(item_name) for item_name in read_data["kitchen_items"]]
+    Attic.items = [find_item_by_name(item_name) for item_name in read_data["attic_items"]]
+    Bedroom.items = [find_item_by_name(item_name) for item_name in read_data["bedroom_items"]]
+    Bathroom.items = [find_item_by_name(item_name) for item_name in read_data["bathroom_items"]]
 
     print(f"Successfully loaded previous save with {player.inventory} in inventory, {player.exp} experience and player level {player.level}.")
 
@@ -229,12 +244,20 @@ def show_room_info():
     for i in player.in_room.items:
         print(i.name, f"{i.value}$")
 
-def select_next_room():
-     if(player.in_room == Entryway):
-        print(f"Current room: {player.in_roomname}\nItems in room:")
-        
-     selection = int(input("Which room to go in next?"))
-     
+controls_text = "Controls: \nCollect item: 1, Discard item: 2, Change room: 3"
+
+def ask_next_command():
+     print(controls_text)
+     command = int(input("Enter command: "))
+     if(command == 1):
+          collect_item()
+     elif(command == 2):
+          discard_item()
+     elif(command == 3):
+          change_room()
+     else:
+          print("Invalid command.")
+          ask_next_command()
 
 # lukee save tiedoston, jos tyhjä, oleta, että pelaa ekaa kertaa
 def start_game():
@@ -255,10 +278,3 @@ def main():
        input()
         
 main()
-
-
-""" living_room = Room("Living Room", generate_items())
-
-for i in living_room.items:
-    print(i.name, f"{i.value}$") """
-
