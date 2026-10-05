@@ -24,7 +24,7 @@ cash = Item(f"{random_cash_amount}$ in cash", random_cash_amount)
 polaroid_camera = Item("Polaroid Camera", 4)
 niche_fragrance = Item("Niche Fragrance", 5)
 
-items = [banana, gold_coin, old_necklace, silver_key, headphones, guitar,
+all_items = [banana, gold_coin, old_necklace, silver_key, headphones, guitar,
          dirty_microwave, rusty_bicycle, wallet, gold_coin, gun, coffee_mug,
          tv_remote, toothbrush, shiny_frying_pan, phone_charger, wrist_watch,
          cash, polaroid_camera, niche_fragrance]
