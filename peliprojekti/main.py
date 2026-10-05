@@ -8,10 +8,13 @@ import sys
 from classes import Entity, Player, Item, Room
 from items import all_items
 
+# Luo tyhjän player-olion
 player = Player("", 0, "")
 
+# Luo kopion kaikkien tavaroiden listasta, jotta siitä voi poistaa käytettyjä tavaroita ilman, että ne poistuvat pelin käytöstä kokonaan
 available_items = all_items.copy()
 
+# Luo pelin huoneet ilman tavaroita
 Entryway = Room("Entryway", [])
 Kitchen = Room("Kitchen", [])
 Living_room = Room("Living room", [])
@@ -19,6 +22,10 @@ Bathroom = Room("Bathroom", [])
 Attic = Room("Attic", [])
 Bedroom = Room("Bedroom", [])
 
+# Lisää kaikki huoneet listaan
+rooms = [Entryway, Kitchen, Living_room, Bathroom, Attic, Bedroom]
+
+# Pelin controllit
 controls_text = "Controls: \nCollect item: 1, Discard item: 2, Change room: 3"
 
 # Generoi satunnaisen määrän item-olioita mahdollisia tavaroita sisältävästä listasta
@@ -32,18 +39,19 @@ def generate_items():
 
     return room_items
 
-rooms = [Entryway, Kitchen, Living_room, Bathroom, Attic, Bedroom]
-
+# Funktio, joka etsii item-olion kaikkien tavaroiden listasta pelkästään sen nimi-attribuutilla
 def find_item_by_name(name):
     for item in all_items:
         if item.name == name:
             return item
-        
+
+# Funktio, joka etsii room-olion kaikkien huoneiden listasta pelkästään sen nimi-attribuutilla 
 def find_room_by_name(name):
     for room in rooms:
         if room.name == name:
             return room
 
+# Tulostaa pelin lopetuksen näytölle. Pelin lopetuksella on monta versiota, jotka riippuvat pelaajan omista tiedoista.
 def game_over_sequence():
      
      # Jos pelaaja on 18 tai yli ja alle 30
@@ -100,6 +108,8 @@ def game_over_sequence():
      open("peliprojekti/save.json", "w").close()
      sys.exit(0)
 
+
+# Tulostaa pelin lopetuksen näytölle silloin, kun pelaaja on hävinnyt pelin.
 def show_game_failed_screen():
      clear_screen()
      print("Nothing more valuable in there huh? Well, I'll take it. You're not getting out though.")
@@ -111,7 +121,7 @@ def show_game_failed_screen():
      open("peliprojekti/save.json", "w").close()
      sys.exit(0)
 
-# Hahmonluontivalikko
+# Tulostaa hahmonluontivalikon näytölle, ja asettaa käyttäjän antamat arvot player-oliolle.
 def show_create_character_screen():
     given_name = input(("What is your name?\n"))
     player.name = given_name
@@ -185,6 +195,7 @@ def load_saved_game_state():
     Bedroom.items = [find_item_by_name(item_name) for item_name in read_data["bedroom_items"]]
     Bathroom.items = [find_item_by_name(item_name) for item_name in read_data["bathroom_items"]]
 
+# Tulostaa pelin huoneiden kartan näytölle sen perusteella, missä huoneessa pelaaja on.
 def show_current_map():
     if(player.in_room == Entryway):
         print("""
@@ -319,6 +330,7 @@ def show_current_map():
                     +----------+
     """)
 
+# Laskee, onko pelaajalla inventoryssä jo arvokkaimmat esineet, jotka löytyvät huoneista, ja palauttaa sen perusteella True tai False.
 def highest_value_found():
      lowest_inv_value = 11
 
@@ -336,7 +348,8 @@ def highest_value_found():
           return True
      else:
           return False
-          
+
+# Tulostaa pelaajan hetkellisen huoneen tiedot näytölle, kuten huoneen nimen ja sen sisältämät tavarat.          
 def show_room_info():
     if(not player.in_room.items):
          print("No items in this room.\n")
@@ -346,6 +359,7 @@ def show_room_info():
             print(f"{player.in_room.items.index(i)} {i.name}, {i.value}$")
         print("\n")
 
+# Kysyy käyttäjältä, minkä esineen haluaa lisätä inventoryynsä, ja lisää sen sinne.
 def select_item_collect():
      selection = input("Select item to collect: ")
      if(selection == ""):
@@ -357,6 +371,7 @@ def select_item_collect():
         print("Invalid selection.")
         time.sleep(1)
 
+# Kysyy käyttäjältä, minkä tavaran haluaa poistaa inventorystään, ja poistaa sen.
 def select_item_discard():
      player.show_inventory()
 
@@ -366,7 +381,8 @@ def select_item_discard():
           time.sleep(1)
      else:
           player.discard_item(player.inventory[int(selection)])
-     
+
+# Kysyy käyttäjältä, mihin huoneeseen haluaa siirtyä seuraavaksi.     
 def select_room_change():
      print("Nearby rooms: ")
      if(player.in_room == Entryway):
@@ -389,6 +405,8 @@ def select_room_change():
           ask_next_command()
      if(player.in_room == Entryway and int(selection) == 1):
           player.in_room = Living_room
+
+     # Tarkistaa, onko pelaajalla jo arvokkaimmat mahdolliset tavarat, ja vastaa sen perusteella.
      elif(player.in_room == Entryway and int(selection) == 2):
           if(player.total_inventory_value() < 50):
                if(highest_value_found()):
@@ -398,7 +416,8 @@ def select_room_change():
                     print("Your items are not valuable enough. Try again when they are.")
                     time.sleep(2)
           else:
-               game_over_sequence()              
+               game_over_sequence()   
+
      elif(player.in_room == Living_room and int(selection) == 1):
           player.in_room = Kitchen
      elif(player.in_room == Living_room and int(selection) == 2):
@@ -420,7 +439,8 @@ def select_room_change():
      else:
            print("Invalid selection.")
            time.sleep(1)
-     
+
+# Kysyy käyttäjältä komentoa.     
 def ask_next_command():
      command = int(input("\nEnter command: "))
      if(command == 1):
@@ -433,7 +453,7 @@ def ask_next_command():
           print("Invalid selection.")
           time.sleep(1)
 
-# lukee save tiedoston, jos tyhjä, oleta, että pelaa ekaa kertaa
+# Lukee save-tiedoston. Jos se on tyhjä, funktio olettaa, että pelaaja pelaa ensimmäistä kertaa, ja tulostaa näytölle hahmonluontivalikon.
 def start_game():
     available_items = all_items.copy()
 
@@ -458,12 +478,14 @@ def start_game():
         else:
             load_saved_game_state()
 
+# Tyhjentää aiemmat tekstit konsolista käyttöliittymän selventämiseksi. 
 def clear_screen():
     if platform.system() == "Windows":
         subprocess.run(["cls"], shell=True)
     else:
         subprocess.run(["clear"], shell=True)
 
+# Pääsilmukka
 def main():
     start_game()
 

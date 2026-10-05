@@ -15,7 +15,7 @@ class Player(Entity):
         self.health = 100
         self.in_room = Room
 
-    # Adds item to players inventory
+    # Lisää annetun esineen pelaajan inventoryyn
     def collect_item(self, item):
         if(len(self.inventory) == 8):
             print("Inventory is full.")
@@ -23,10 +23,11 @@ class Player(Entity):
         else:
             self.inventory.append(item)
             self.in_room.items.remove(item)
-
+    # Poistaa annetun esineen pelaajan inventorystä.
     def discard_item(self, item):
         self.inventory.remove(item)
 
+    # Laskee pelaajan inventoryn kokonaisarvon.
     def total_inventory_value(self):
         total_inventory_value = 0
         
@@ -35,6 +36,7 @@ class Player(Entity):
 
         return total_inventory_value
 
+    # Tulostaa pelaajan inventoryn sisällön ja sen kokonaisarvon näytölle.
     def show_inventory(self):
         for i in range(0, len(self.inventory), 1):
             print(f"{i} {self.inventory[i].name} {self.inventory[i].value}$")
