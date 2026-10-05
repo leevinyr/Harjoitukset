@@ -3,9 +3,9 @@
 
 # Pelin idea:
 
-Kerää esineitä talosta, joiden arvon täytyy ylittää tietty määrä rajallisella inventaariolla.
+Pelin ideana on kerätä esineitä talosta, joiden arvon täytyy ylittää 50$. Jos pelaaja on kerännyt talosta kaikki arvokkaimmat esineet ilman, että niiden arvo ylittää 50$, ja yrittää poistua talosta, pelaaja häviää pelin. Jos pelaajan keräämien esineiden arvo ei ylitä 50$, ja talossa on vielä jäljellä arvokkaampia esineitä, pelaajaa ei päästetä poistumaan talosta.
 
-ideat:
+# Kestävän kehityksen tavoite:
 
-pelaajan ikä ja sukupuoli vaikuttaa lopussa siihen, mitä mies sanoo
-eg "not bad for a (gender) of your age / just a child
+Peli kannustaa sitä, että köyhyys vähenisi maailmassa, sillä sen antagonisti antaa pelaajalle tilaisuuden tienata rahaa.
+
