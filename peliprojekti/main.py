@@ -53,60 +53,116 @@ def find_room_by_name(name):
 
 # Tulostaa pelin lopetuksen näytölle. Pelin lopetuksella on monta versiota, jotka riippuvat pelaajan omista tiedoista.
 def game_over_sequence():
+
+    time.sleep(1)
+    clear_screen()
+    time.sleep(2)
+    
+    print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⠟⢀⡘⠉⠁⠀⣀⠙⠉⢿⣀⣄⣲⣦⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠖⠛⠉⠀⠄⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠝⠃⠨⠿⣷⡆⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⡄⠀⠠⣌⠙⠿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⠀⠈⠻⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⢄⠀⠀⢠⣝⢻⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣾⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢿⣮⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣤⣀⣠⣤⣤⣤⣴⣤⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠈⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⠀⠀⠀⠀⠀⠀⠀⠰⠃⠻⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡖⣯⠓⠀⠀⠀⠀⠀⠀⠀⢪⣧⢸⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢯⡗⣮⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣯⣷⡾⣵⠃⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠌⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣯⡿⣷⢧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡻⠁⠀⠀⠈⠁⠻⠗⠻⣿⣿⡿⠿⠋⠉⠀⠀⠙⠉⠛⠻⢿⣿⣷⣾⣿⣽⣟⣿⢺⡄⠀⠀⠀⠀⠀⠀⠀⠘⡳⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡄⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⣼⣟⣿⣾⣻⡜⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣷⣀⠀⠀⠀⠀⢀⣠⣿⣿⣷⣠⣀⠀⠀⠀⠀⠠⢄⠀⠀⣀⢀⠀⣀⣸⣿⣿⣧⠅⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣯⣀⣤⣴⣾⣿⣿⢟⣤⣿⣿⣿⣟⣁⠒⠚⠁⠀⠀⣿⣿⣿⣿⣿⣿⣿⡞⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢬⣯⣿⣿⣿⣿⣿⣿⣿⣿⡟⣿⣿⣤⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢧⡛⡄⢠⠀⠀⠀⠰⣁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⢸⣿⣿⣿⣿⢟⣿⣿⣧⣿⣷⡄⠀⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⡃⠈⢌⡑⢎⡆⢀⡀⠽⢀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣾⣿⣿⣿⣇⠘⠛⠿⠏⠉⠿⠟⠄⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠧⠀⠀⠀⠆⠌⠀⣠⣾⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣶⣤⡄⠀⠀⠀⣀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣛⢒⣂⠀⠀⠀⡄⠂⠈⠠⣿⣻⠆⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⠿⣿⣿⣷⣶⣿⣾⣿⠛⠿⣿⣿⣿⣿⣿⣟⣿⢳⢯⡍⡤⠀⢀⠒⡌⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⠁⠀⣉⣁⣀⣀⣀⣀⠀⡉⠀⠀⠈⠁⢻⣿⣏⡿⢯⠶⡤⡄⢠⠎⡰⠀⠀⡞⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣦⣾⣿⣿⣟⡉⠉⠻⢿⡿⢿⣿⣦⣴⣿⣿⣻⣝⢪⢿⡱⢃⢇⡚⠀⠀⡜⠁⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⡟⣿⣿⣿⣿⣿⣿⣿⣷⣦⣶⣿⣿⡿⣿⣿⠏⠑⣪⢯⡓⡹⠌⠂⠀⠀⡐⠀⣰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⡗⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣶⠶⠍⡤⠋⢨⡗⡖⠉⠀⠀⠀⠀⠀⡀⢹⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡟⣿⣿⣿⡿⣿⣿⣿⣿⡿⢿⡽⡇⠀⠀⠀⠜⠁⠊⠀⠀⠀⠀⠀⠀⡰⡁⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠹⠛⠿⠆⠈⠉⠀⠀⠊⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠴⢡⠂⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠂⣸⣿⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡉⢖⣍⠂⢸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢠⣿⣿⡄⢻⣷⣤⡀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⣀⠰⢣⢎⡱⢎⡄⠿⣷⡀⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⣿⣷⡈⢿⣿⣿⣖⠦⣄⡀⠀⠀⠀⠀⠀⠀⡀⢌⠲⣌⠳⣍⠞⡜⠦⡀⢠⣿⡇⠈⣣⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣄⠻⣿⣿⣿⣿⣿⣤⣤⡼⣸⢃⠧⣘⡘⣣⢄⠿⣠⢟⣻⠀⢠⡿⣿⠇⠀⠻⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣷⣌⠻⣿⣿⣿⣿⣛⡿⢷⣯⣿⣵⣏⣳⣾⡹⢾⠌⢁⣴⠟⣱⡿⠀⠀⠀⠙⢿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣷⣌⠻⣿⣿⣿⣿⣶⣿⣿⣿⣿⣷⡿⠙⣠⣶⡿⢋⣴⣿⡟⠀⠀⠀⠀⠀⠙⢾⣿⣿⠗⠶⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⠛⢿⣿⣿⣿⣿⣿⡿⢋⣤⣾⣿⣿⣥⣾⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠉⠈⠛⠀⠀⢄⡈⠑⠲⡄⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⠙⠛⠛⠛⣩⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠔⠀⠀⠈⠣⠀⠩⣝⣲⣤⣀⠀⠀⠀
+⡀⠄⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⠈⡉⠁⠈⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠖⠀⠛⢻⣿⣶
+⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⣿⣿⣿⣿⣿⣿⠟⠉⠠⣀⣀⠐⠾⠁⠀⠀⠀⣠⡈⠻⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠹⡿
+⠑⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠟⣋⣤⣤⣴⣾⣿⣿⡇⠈⡃⠀⠀⠈⣿⣷⣤⣬⡙⠻⢿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⠛⢡⣾⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⣼⣿⣿⣿⣿⡿⢿⡷⢆⠙⣿⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⠿⣿⣿⣿⣿⣿⣿⣿⡿⠀⣀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⢿⡿⠁⠰⢧⠀⠀⠈⠾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
      
      # Jos pelaaja on 18 tai yli ja alle 30
-     if(30 > player.age >= 18 and player.gender == "male"):
-          clear_screen()
+    if(30 > player.age >= 18 and player.gender == "male"):
           time.sleep(1)
           print("Hm. So you did it. As expected, from a young man like you. Alright, you're free to go.")
           time.sleep(2)
-     elif(30 > player.age >= 18 and player.gender == "female"):
-          clear_screen()
+    elif(30 > player.age >= 18 and player.gender == "female"):
           time.sleep(1)
           print("Hm. So you did it. As expected, from a young woman like you. Alright, you're free to go.")
           time.sleep(2)
+    elif(30 > player.age >= 18 and player.gender == "other"):
+            time.sleep(1)
+            print("Hm. So you did it. As expected, from a young person like you. Alright, you're free to go.")
+            time.sleep(2)
 
      # Jos pelaaja on alle 18
-     elif(player.age < 18 and player.gender == "male"):
-          clear_screen()
+    elif(player.age < 18 and player.gender == "male"):
           time.sleep(1)
           print("You're just.. a boy. Well done. You may go now. And stay out of trouble.")
           time.sleep(2)
-     elif(player.age < 18 and player.gender == "female"):
-          clear_screen()
+    elif(player.age < 18 and player.gender == "female"):
           time.sleep(1)
           print("You're just.. a girl. Well done. You may go now. And stay out of trouble.")
           time.sleep(2)
+    elif(player.age < 18 and player.gender == "female"):
+            time.sleep(1)
+            print("You're just.. a child. Well done. You may go now. And stay out of trouble.")
+            time.sleep(2)
 
      # Jos pelaaja on 30 tai yli ja alle 50
-     if(50 > player.age >= 30 and player.gender == "male"):
-          clear_screen()
+    if(50 > player.age >= 30 and player.gender == "male"):
           time.sleep(1)
-          print("Not bad. Alright, you can go now.")
+          print("And he does it. Not bad. Alright, you can go now.")
           time.sleep(2)
-     elif(30 > player.age >= 18 and player.gender == "female"):
-          clear_screen()
+    elif(30 > player.age >= 18 and player.gender == "female"):
           time.sleep(1)
-          print("Not bad. Alright, you can go now.")
+          print("And she does it. Not bad. Alright, you can go now.")
+          time.sleep(2)
+    elif(30 > player.age >= 18 and player.gender == "other"):
+          time.sleep(1)
+          print("And they do it. Not bad. Alright, you can go now.")
           time.sleep(2)
 
      # Jos pelaaja on 50 tai yli
-     elif(player.age >= 50 and player.gender == "male"):
-          clear_screen()
+    elif(player.age >= 50 and player.gender == "male"):
           time.sleep(1)
           print("Not bad for a man of your age. Hope you didn't strain any muscles in there. You can go.")
           time.sleep(2)
-     elif(player.age >= 50 and player.gender == "female"):
-          clear_screen()
+    elif(player.age >= 50 and player.gender == "female"):
           time.sleep(1)
           print("Not bad for a woman of your age. Hope you didn't strain any muscles in there. You can go.")
           time.sleep(2)
+    elif(player.age >= 50 and player.gender == "other"):
+            time.sleep(1)
+            print("Not bad for a person of your age. Hope you didn't strain any muscles in there. You can go.")
+            time.sleep(2)
 
-     print("You win.")
-     time.sleep(2)
-     play_again_input = input("Press enter to wipe your save and exit.")
-     open("peliprojekti/save.json", "w").close()
-     sys.exit(0)
+    print("You win.")
+    time.sleep(2)
+    play_again_input = input("Press enter to wipe your save and exit.")
+    open("peliprojekti/save.json", "w").close()
+    sys.exit(0)
 
 
 # Tulostaa pelin lopetuksen näytölle silloin, kun pelaaja on hävinnyt pelin.
@@ -140,9 +196,9 @@ def show_create_character_screen():
     if(given_gender == "1" or given_gender.lower() == "male"):
         given_gender = "male"
     elif(given_gender == "2" or given_gender.lower() == "female"):
-            given_gender = "female"
+        given_gender = "female"
     elif(given_gender == "3" or given_gender.lower() == "other"):
-            given_gender = "other"
+        given_gender = "other"
 
     player.gender = given_gender
 
@@ -402,7 +458,7 @@ def select_room_change():
      if(selection == ""):
           print("Invalid selection.")
           time.sleep(2)
-          ask_next_command()
+          select_room_change()
      if(player.in_room == Entryway and int(selection) == 1):
           player.in_room = Living_room
 
@@ -442,12 +498,12 @@ def select_room_change():
 
 # Kysyy käyttäjältä komentoa.     
 def ask_next_command():
-     command = int(input("\nEnter command: "))
-     if(command == 1):
+     command = input("\nEnter command: ")
+     if(command == "1"):
           select_item_collect()
-     elif(command == 2):
+     elif(command == "2"):
           select_item_discard()
-     elif(command == 3):
+     elif(command == "3"):
           select_room_change()
      else:
           print("Invalid selection.")
@@ -455,10 +511,14 @@ def ask_next_command():
 
 # Lukee save-tiedoston. Jos se on tyhjä, funktio olettaa, että pelaaja pelaa ensimmäistä kertaa, ja tulostaa näytölle hahmonluontivalikon.
 def start_game():
-    available_items = all_items.copy()
-
     with open("peliprojekti/save.json", "r") as save_file:
+
+        # Täyttää saatavilla olevien tavaroiden listan uudelleen, kun peli aloitetaan
+        available_items.clear()
+        available_items.extend(all_items)
+
         if(not save_file.read(1)):
+
             Entryway.items = generate_items()
             Living_room.items = generate_items()
             Kitchen.items = generate_items()
