@@ -4,10 +4,10 @@ class Entity:
     def __init__(self, health):
         self.health = health
 
-    def attack(self, target):
+    """  def attack(self, target):
         if(self.level == 0):
             damage = random.randint(1, 20)
-            target.health -= damage
+            target.health -= damage """
 
 class Player(Entity):
     def __init__(self, name, age, gender):
@@ -18,15 +18,14 @@ class Player(Entity):
         self.level = 0
         self.inventory = []
         self.health = 100
-        self.in_room = ""
-        # super().__init__()
+        self.in_room = Room
 
     # Adds item to players inventory
     def collect(self, item):
         self.inventory.append(item)
 
     # Gives player given amount of experience points
-    def gain_exp(self, amount):
+    """ def gain_exp(self, amount):
         self.exp += amount
         
         if(self.exp >= 10):
@@ -40,7 +39,7 @@ class Player(Entity):
         elif(self.exp >= 50):
             self.level = 5
         else:
-            self.level = 0
+            self.level = 0 """
 
 class Room:
     def __init__(self, name, items):
