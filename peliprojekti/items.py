@@ -21,7 +21,7 @@ cash = Item("4$ in cash", 4)
 polaroid_camera = Item("Polaroid Camera", 5)
 niche_fragrance = Item("Niche Fragrance", 6)
 
-all_items = [banana, diamond, gold_coin, old_necklace, silver_key, headphones, guitar,
+all_items = [banana, banana, toothbrush, diamond, gold_coin, old_necklace, silver_key, headphones, guitar,
          dirty_microwave, rusty_bicycle, wallet, gun, coffee_mug,
          tv_remote, toothbrush, shiny_frying_pan, phone_charger, wrist_watch,
          cash, polaroid_camera, niche_fragrance]
