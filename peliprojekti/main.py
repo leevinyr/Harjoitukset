@@ -511,7 +511,7 @@ def ask_next_command():
 
 # Lukee save-tiedoston. Jos se on tyhjä, funktio olettaa, että pelaaja pelaa ensimmäistä kertaa, ja tulostaa näytölle hahmonluontivalikon.
 def start_game():
-    with open("peliprojekti/save.json", "r") as save_file:
+    with open("save.json", "r") as save_file:
 
         # Täyttää saatavilla olevien tavaroiden listan uudelleen, kun peli aloitetaan
         available_items.clear()
