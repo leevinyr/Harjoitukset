@@ -161,7 +161,7 @@ def game_over_sequence():
     print("You win.")
     time.sleep(2)
     play_again_input = input("Press enter to wipe your save and exit.")
-    open("peliprojekti/save.json", "w").close()
+    open("save.json", "w").close()
     sys.exit(0)
 
 
@@ -174,7 +174,7 @@ def show_game_failed_screen():
      time.sleep(2)
      print("You lost.")
      time.sleep(2)
-     open("peliprojekti/save.json", "w").close()
+     open("save.json", "w").close()
      sys.exit(0)
 
 # Tulostaa hahmonluontivalikon näytölle, ja asettaa käyttäjän antamat arvot player-oliolle.
@@ -233,12 +233,12 @@ def save_game_state():
                  "bathroom_items": [item.name for item in Bathroom.items],
               }
 
-     with open("peliprojekti/save.json", "w") as save_file:
+     with open("save.json", "w") as save_file:
           json.dump(data_to_save, save_file)
 
 # Lataa pelin tallennetun tilan
 def load_saved_game_state():
-    with open("peliprojekti/save.json", "r") as save_file:
+    with open("save.json", "r") as save_file:
         read_data = json.load(save_file)
 
     player.name, player.age, player.gender, player.health, player.exp, player.level = read_data["player_name"], read_data["player_age"], read_data["player_gender"], read_data["saved_health"], read_data["saved_exp"], read_data["saved_level"]
@@ -528,7 +528,7 @@ def start_game():
 
             player.in_room = Entryway
 
-            with open("peliprojekti/intro.txt", "r") as f:
+            with open("intro.txt", "r") as f:
                  for line in f:
                       print(line)
                       time.sleep(2)
